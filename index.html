@@ -208,13 +208,18 @@
 
   .hero-split {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.3fr 1fr;
     gap: 32px;
     align-items: center;
     margin-top: 28px;
   }
   .hero-split .photo-slot:not(.has-image) { min-height: 220px; }
   .hero-split-text h3:last-child { margin-bottom: 0; }
+  .no-wrap-line { white-space: nowrap; }
+
+  @media (min-width: 561px) {
+    .hero-split-text h3 { font-size: 21px; margin-bottom: 16px; }
+  }
 
   header {
     border-bottom: 1px solid var(--border);
@@ -269,6 +274,7 @@
     h3 { font-size: 19px; }
     p { font-size: 17px; }
     .hero-split { gap: 48px; }
+    .hero-split-text h3 { font-size: 25px; margin-bottom: 20px; }
   }
 
   @media (max-width: 560px) {
@@ -278,6 +284,7 @@
     .col { padding: 0 20px; }
     .hero-split { grid-template-columns: 1fr; }
     .hero-strip { margin-top: -40px; }
+    .no-wrap-line { white-space: normal; }
   }
 </style>
 </head>
@@ -310,7 +317,7 @@
         <div class="hero-split-text">
           <h3>You design benefits.</h3>
           <h3>Employees experience them.</h3>
-          <h3 style="white-space: nowrap;">We improve the employee experience.</h3>
+          <h3 class="no-wrap-line">We improve the employee experience.</h3>
         </div>
       </div>
     </div>
