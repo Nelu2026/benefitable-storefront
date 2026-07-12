@@ -131,9 +131,10 @@
     border: 1px solid transparent;
     transition: background 0.15s ease;
     margin-bottom: 16px;
+    white-space: nowrap;
   }
-  .btn-primary { background: var(--ink); color: var(--cream); }
-  .btn-primary:hover { background: var(--teal-deep); }
+  .btn-primary { background: var(--teal-deep); color: var(--cream); }
+  .btn-primary:hover { background: var(--ink); }
 
   .placeholder-note {
     font-style: italic;
@@ -294,6 +295,9 @@
     .hero-split { grid-template-columns: 1fr; }
     .hero-strip { margin-top: -40px; }
     .no-wrap-line { white-space: normal; }
+    header .col { align-items: flex-start; gap: 12px; }
+    .header-brand { flex: 1; min-width: 0; }
+    header .btn { flex-shrink: 0; padding: 10px 14px; font-size: 13px; }
   }
 </style>
 </head>
