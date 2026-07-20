@@ -189,6 +189,12 @@
     height: auto;
     object-fit: contain;
   }
+  .cta-single {
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .cta-single img { display: block; }
   .logo-mark { height: 28px; width: auto; display: block; flex-shrink: 0; align-self: flex-start; }
   .inline-logo { height: 0.8em; width: auto; display: inline-block; vertical-align: middle; margin: 0 1px; }
 
@@ -397,16 +403,7 @@
     <hr>
 
     <div class="block" id="cta">
-      <div class="carousel" id="cta-carousel">
-        <div class="carousel-track">
-          <div class="photo-slot has-image"><img src="cta-image-1.webp" alt="See your benefits in the context of your life"></div>
-          <div class="photo-slot has-image"><img src="cta-image-2.webp" alt="Discover your Benefits Map"></div>
-        </div>
-      </div>
-      <div class="carousel-dots">
-        <button class="carousel-dot active" data-slide="0" aria-label="Show image 1"></button>
-        <button class="carousel-dot" data-slide="1" aria-label="Show image 2"></button>
-      </div>
+      <div class="photo-slot has-image cta-single"><img src="cta-image-2.webp" alt="Discover your Benefits Map"></div>
       <a class="btn btn-primary" href="mailto:info@bebenefitable.com">Schedule a demo</a>
     </div>
 
@@ -432,21 +429,6 @@
     </p>
   </div>
 </footer>
-
-<script>
-  (function () {
-    var track = document.querySelector('#cta-carousel .carousel-track');
-    var dots = document.querySelectorAll('.carousel-dot');
-    dots.forEach(function (dot) {
-      dot.addEventListener('click', function () {
-        var index = Number(dot.getAttribute('data-slide'));
-        track.style.transform = 'translateX(-' + (index * 50) + '%)';
-        dots.forEach(function (d) { d.classList.remove('active'); });
-        dot.classList.add('active');
-      });
-    });
-  })();
-</script>
 
 </body>
 </html>
