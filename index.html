@@ -149,6 +149,44 @@
   .btn-primary { background: var(--teal-deep); color: var(--cream); }
   .btn-primary:hover { background: var(--ink); }
 
+  .demo-form { margin-top: 8px; max-width: 640px; }
+  .form-row { display: flex; gap: 16px; }
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+    flex: 1;
+    min-width: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--ink);
+    padding: 11px 13px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: #fff;
+    width: 100%;
+  }
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus {
+    outline: none;
+    border-color: var(--teal-jewel);
+  }
+  .form-field textarea { resize: vertical; }
+  .demo-form .btn { border: none; cursor: pointer; margin-top: 4px; }
+  .form-status { margin: 12px 0 0; font-size: 14px; font-weight: 600; }
+  .form-status.success { color: var(--teal-deep); }
+  .form-status.error { color: #b0413e; }
+
   .placeholder-note {
     font-style: italic;
     color: #8f8a80;
@@ -318,6 +356,7 @@
     header .col { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
     .header-brand { gap: 9px; }
     header .btn { padding: 8px 22px; }
+    .form-row { flex-direction: column; gap: 0; }
   }
 </style>
 </head>
@@ -404,7 +443,43 @@
 
     <div class="block" id="cta">
       <div class="photo-slot has-image cta-single"><img src="cta-image-2.webp" alt="Discover your Benefits Map"></div>
-      <a class="btn btn-primary" href="mailto:info@nelusolutions.com">Schedule a demo</a>
+      <form class="demo-form" id="demo-form">
+        <input type="hidden" name="access_key" value="c474eef9-7b39-4570-9514-512d2596b431">
+        <input type="hidden" name="subject" value="New demo request from bebenefitable.com">
+        <input type="hidden" name="from_name" value="Benefitable Website">
+        <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="form-row">
+          <label class="form-field">
+            <span>Name</span>
+            <input type="text" name="name" required>
+          </label>
+          <label class="form-field">
+            <span>Work email</span>
+            <input type="email" name="email" required>
+          </label>
+        </div>
+        <div class="form-row">
+          <label class="form-field">
+            <span>Classification</span>
+            <select name="classification" required>
+              <option value="" disabled selected>Select one…</option>
+              <option>Employer</option>
+              <option>Retirement or benefits fund</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label class="form-field">
+            <span>Company</span>
+            <input type="text" name="company" required>
+          </label>
+        </div>
+        <label class="form-field">
+          <span>Message</span>
+          <textarea name="message" rows="4" placeholder="What would you like to see in a demo?"></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary">Schedule a demo</button>
+        <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+      </form>
     </div>
 
     <hr>
@@ -429,6 +504,42 @@
     </p>
   </div>
 </footer>
+
+<script>
+  (function () {
+    var form = document.getElementById('demo-form');
+    if (!form) return;
+    var status = document.getElementById('form-status');
+    var btn = form.querySelector('button[type="submit"]');
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      status.textContent = 'Sending…';
+      status.className = 'form-status';
+      btn.disabled = true;
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: new FormData(form)
+      })
+        .then(function (r) { return r.json(); })
+        .then(function (json) {
+          if (json.success) {
+            form.reset();
+            status.textContent = "Thanks — we'll be in touch shortly.";
+            status.className = 'form-status success';
+          } else {
+            status.textContent = 'Something went wrong. Please email info@nelusolutions.com.';
+            status.className = 'form-status error';
+          }
+        })
+        .catch(function () {
+          status.textContent = 'Something went wrong. Please email info@nelusolutions.com.';
+          status.className = 'form-status error';
+        })
+        .finally(function () { btn.disabled = false; });
+    });
+  })();
+</script>
 
 </body>
 </html>
